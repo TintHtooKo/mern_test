@@ -1,0 +1,45 @@
+.detail img{
+    width: 300px;
+    height: 180px;
+}
+
+.detail{
+    border: 1px solid gray;
+    margin: 0 30%;
+    border-radius: 10px;
+    background-color: aqua;
+    padding: 20;
+}
+
+.send{
+    border: 1px solid gray;
+    padding: 5px 20px;
+    border-radius: 10px;
+    color: white;
+    background-color: black;
+    margin-right: 45%;
+    margin-top: 10px;
+    font-size: 10px;
+}
+
+.send:hover{
+    background-color: gray;
+}
+
+.edit{
+    border: 1px solid gray;
+    padding: 5px 20px;
+    border-radius: 10px;
+    color: black;
+    background-color: yellow;
+    font-size: 10px;
+}
+
+.delete{
+    border: 1px solid gray;
+    padding: 5px 20px;
+    border-radius: 10px;
+    color: white;
+    background-color: red;
+    font-size: 10px;
+}
