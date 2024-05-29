@@ -1,13 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react'
 import './home.css'
 import axios from '../helper/axios'
-import { Link } from 'react-router-dom'
+import { Link, useOutletContext } from 'react-router-dom'
 import { formatDistanceToNow } from 'date-fns'
 
 
 
 export default function Home() {
   let [post,setPost] = useState([])
+  const { searchQuery } = useOutletContext()
 
   useEffect(()=>{   
       let fetchPost = async()=>{
@@ -33,9 +34,12 @@ export default function Home() {
     return formatDistanceToNow(new Date(createdAt), { addSuffix: true });
   };
 
+  const filteredPosts = post.filter(p => p.title.toLowerCase().includes(searchQuery) || 
+                        p.body.toLowerCase().includes(searchQuery))
+
   return (
     <div className=' grid grid-cols-3 space-x-2 space-y-3'>
-    { !!post.length && post.map((p)=>(
+    { !!filteredPosts.length && filteredPosts.map((p)=>(
       <div className='card' key={p._id} >
       <h1 className=' text-2xl font-bold mb-3'>{p.title}</h1>
       <p className=' mb-3'>{truncateText(p.body, 10)}</p>

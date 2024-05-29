@@ -1,0 +1,193 @@
+1- ပထမဆုံး ကိုယ်ရေးချင်တဲ့ project ပေါ် မူတည်ပီး backend code ကို အရင်စရေးကြမယ်။ အရင်ဆုံး backend folder တခုတည်ဆောက် cmd ခေါ်ပီး npm init -y နဲ့ package.json ကို ခေါ်မယ် ပီးရင် တည်ပီးရေးရမယ့် server.js ကို ‌ဆောက် (ကိုယ်ကြိုက်တဲ့ name ပေး) ပီးရင် nodemon နဲ့ express ကို ဒေါင်း။ nodemon က server auto refresh ဖြစ်အောင်
+
+2 - ပီးရင် dotenv package ကို ဒေါင်း dynamic ပြောင်းနိုင်တာတွေကို .env ထဲ ထည့် eg, PORT,. ပီးရင် server ထဲမှာ သူ့ package ကို required ခေါ်
+ require('dotenv').config()
+ပီးရင် ပြန်သုံးချင်ရင်
+process.env.PORT ( port နေရာမှာ ကိုယ်သုံးထားတာထည့်)
+
+3- ဒါတွေအားလုံး အဆင်ပြေပီးဆိုရင် crud လုပ်ဖိုစစဉ်းစားမယ် အရင်ဆူံး post တွေကို crud လုပ်ဖိုရေးမယ် ရေးဖို routes folder ထဲမှာ post.js တခုဆောက် ပီးရင် express ကိုသွင်း express မှာပါတဲ့ router ကို သွင်း ပီးရင် crud ထူံးစံအတိုင်း get post put delete နဲ့ရေး ကိုယ်ရေးထားတဲ့ router ကို server မှာ သူံးဖို export ထုတ်။ ပီးရင် server ဘက်မှာ app.use နဲ့ ကိုယ်သွားချင်တဲ့ url ကို ထည့် ပီးရင် export ထုတ်ထားတဲ့ router ကို server မှာ require ခေါ်ပီး url နောက်မှာ middle ware အနေနဲ့ သွင်းပေး ပီးရင် postman မှာ စမ်း အဆင်ပြေရင် နောက်တဆင့်တက်မယ်
+
+4- crud လုပ်ရတော့မယ်ဆိုတော့ အရင်ဆုံး db ရှိဖိုလိုတယ် db ကို mongo db သူံးမယ် အဲ့ဒါဆိုတော့ လိုအပ်တဲ့ package ကို သွင်းမယ် documentation ထဲကအတိုင်း သွားမယ် server run ရင်တော့ db အရင် ချိတ်ပီးမှ run အောင် လုပ်မယ်
+
+5- ပီးရင် route ထဲက code တွေကို clean code ဖြစ်အောင် refactor လုပ်မယ် အဲ့တွက် controller တခုဆောက်ပီး အဲ့ထဲမှာဘဲ crud လုပ်မယ် controller ထဲက လုပ်ထားတာကို export ထုတ်ပီး router ထဲမှာ middleware အနေနဲ့ ထည့်မယ်
+
+6- ပီးရင် controller ထဲမှာ crud လုပ်ဖို database လိုမယ် အဲ့တွက် model ဆိုတဲ့ folder ဆောက်ပီး db တွက် js file တခုဆောက် ပီးရင် mongoose ကို သွင်း ပီးရင် mongoose မှာ ပါတဲ့ schema ကို သွင်း
+const Schema = mongoose.Schema
+ပီးရင် အဲ့ schema နဲ့ လိုတာတွေ ဆောက်
+const postSchema = new Schema ({
+title : {
+type : String ,
+required : true
+}
+},{timestamps : true})
+အဲ့ပုံစံနဲ့ လိုတဲ့ data တွေဆောက် ပီူရင် export ထုတ်တဲ့ အခါ model ခေါ်ထုတ်
+module.exports = mongoose.model('Post',postSchema)
+အရှေ့က Post က db ထဲက name ကို သတ်မှတ်ပေးတာ ဖြစ်နိုင်ရင် ကိုယ်ပေးထားတဲ့ file name ဘဲ ပေး
+
+7-db လည်း လုပ်ပီးပီးဆိုတော့ controller ထဲမှာ crud တွက် စရေးမယ် db ကို require နဲ့ ခေါ် အရင်ဆုံး get တွက်စရေးမယ် req,res နဲ့ function ရေး db ထဲက data ရှိမရှိကို ရှာ 
+await Post.find() သူက အချိန်အနည်းငယ်စောင့်ရလို await သူံး await သုံးရင် async ကို ခေါ်  ပီးရင် res.json ခေါ်ပီး postman မှာ စမ်း error ဘမာတက်လဲ အတိအကျသိချင်ရင် try catch နဲ့ ဖမ်း catch မှာ
+ error.message နဲ့ console ထုတ်စစ် အကုန်မှန်ရင် create လုပ်ဖိုဆက်သွားမယ်
+
+8 -  create လုပ်မယ်ဆိုရင် အရင်ဆုံး ကိုယ့်မှာရှိတဲ့data တွေကို destruction လုပ်ပီး req.body ဆိုတာ ပြောမယ် ပီးရင်  ပုံမှန်လုပ်နေကြ Post.create နဲ့ လုပ်မယ် ဒါဘဲ
+Detail ကိုရှာမယ်ဆိုရင် id ကို အရင်သတ်မှတ် req.params.id ပီးမှ အဲ့ id နဲ့ ခေါ် ကျန်တာတွေလည်း အဲ့တိုင်းဘဲ
+
+9- ပီးရင် error တွေကို သေချာပြနိုင်အောင် express-validator ကို install လုပ်ပီး သုံးမယ် ပီးရင် middleware တခု ဆောက် ပီးရင် express-validator မှာ ပါလာတဲ့ object ကိုသုံး {validationResult} ပီးရင် ကိုယ်လိုတာရေးပီး export ထုတ် ကိုယ်သုံးချင်တဲ့ route ရောက်ရင် middleware အနေနဲ့ခေါ် , ပီးရင် ကိုယ် required true ပေးထားတဲ့ data တွေ မပါလာရင် ပြဖို express- validator မှာ ပါတဲ့ object {body} ကို သူံး
+
+10 - crud basic လောက် ပီးပီးဆိုတော့ frontend ဘက်ကို သွားမယ် vite နဲ့ react ကို create လုပ်မယ် ပီးရင် react router dom ကို install လုပ်ပီး အရင်လို မသုံးဘူး အခုက အရင်ဆုံး ကိုယ်လုပ်ချင်တဲ့ page ကို အရင်ဆောက် ပီးရင် folder တခု ဆောက်ပီး အဲ့ထဲမှာ routeတွေ ထည့်မယ် function ထဲမှာ router ဆိုတဲ့ constant တခု သက်မှတ်ပီး react router dom မှာ ပါလာတဲ့ createBrowserRouter ကို ခေါ်မယ် ပီးရင် array ထဲမှာမှ object ခေါ်ပီး App က်ု ခေါ်မယ် ပီးရင် သူ့ရဲ့ children အနေနဲ့ array ထဲမှာ object တွေခေါ်ပီး route တွေရေးမယ် 
+{
+path : '/',
+element:<Home/>
+}, etc
+ပီးရင် အဲ့ရောက်မှ RouterProvider ကို return ပြန်ပီး ခေါ်မယ်
+အဲ့ဒါကို main.jsx ထဲမှာထည့်မယ် app.jsx ထဲမှာ children ပြန်ဖို react router dom မှာ default ပါတဲ့ Outlet ကို ထည့်မယ်
+
+11 - frontend ကနေ create လုပ်တာ ဘာညာ ပုံမှန်ဘဲ
+Detail ကျိတာလည်း ပုံမှန်ဘဲ delete လည်း တူတူဘဲ update delete လည်း တူတူဘဲ
+
+Tint Htoo Ko, [5/28/2024 2:10 AM]
+12 -  ရိုးရိုး crud လည်း ပီးပီးဆိုတော့ အခု ပုံ upload လုပ်တာကို tryမယ် အဲ့တွက် backend ကနေ စလုပ်မယ် ပုံ upload လုပ်ဖို့တွက် multer ဆိုတဲ့ package ကို အရင် install လုပ်ရမယ် ပီးရင် helper folder ထဲမှာ upload.js file ဆောက်ပီး ရင် multer ကို required နဲ့သွင်း သွင်းပီးရင် ပီးရင် doc ထဲမှာ diskStorage ကို ရှာပီး အဲ့ကအကုန် copy ထည့် အဲ့ထဲမှာမှ လိုတာကို ပြင်မယ် သူ့ရဲ့အဓိက ရည်ရွယ်ချက်က photo သိမ်းဖို့ folder ကို သတ်မှတ်ပေးမှာ အဲ့မှာ destination ရဲ့ cb မှာ folder သတ်မှတ်မယ် ဘလိုလုပ်မလဲဆိုတော့ file ရဲ့ directory name ကို ဘယ်folder ထဲမှာ သိမ်းမှာလဲ ဆိုတာ
+cb(null, __dirname + '/../public')
+ပီးရင် filename သတ်မှတ်ဖို့ သူ့မှာ ပါတဲ့ uniqueSuffix ကို ဖျက်မယ် filename ရဲ့ cb က်ုဘဲ သုံးမယ် filename ကို ဘလိုသတ်မှတ်မလဲဆိုတော့ unique ဖြစ်အောင် အရှေ့မှာ အချိန်ကိုထည့်မယ် အဲ့ဒါဆို filename တူရင်တောင် အချိန်က မတူတော့ မထပ်တော့ဘူး
+cb(null, Date.now() + '-' + file.originalname)
+
+Tint Htoo Ko, [5/28/2024 2:11 AM]
+အဲ့ဒါတွေမလုပ်ခင် ကိုယ့်ရဲ့ပုံက်ု browser ထဲမှာ ဒီတိုင်းကျိလို့ရမလား အရင်စစ်ရမယ် public folder ထဲမှာ ပုံတပုံထည့်ထား ပီးရင် localhost:5000/filename နဲ့ ကျိကျိ စစချင်း ပုံပေါ်မှာ မဟုတ်ဘူး အဲ့လိုပေါ်ဖို့အတွက် middleware access တခု‌ပေးရမယ် အဲ့ဒါက server.js ထဲမှာ
+app.use(express.static('public'))
+ဆိုပီး ရေးလိုက် ပီးရင် ခုနကလို ပြန်စစ်ကျိ ပုံကျိလို့ရပီး
+အဲ့ဒါတွေလည်း ပီးပီးဆိုတော့ controller ထဲမှာ upload လုပ်ဖို့  တခုရေးမယ် အကုန်အစအဆူံး update လုပ်တာကနေကူးလို့ရတယ် ပီးရင် await ထဲမှာ တခြားဟာတွေဖျက်ပီး photo ကို filename သတ်မှတ်ပေး
+photo : '/'+ req.file.filename 
+အဲ့ဒါတွေပီးရင် route တွေရေးထားတဲ့နေရာမှာ upload တွက် route တခုရေး ပီးရင် middleware အနေနဲ့ helper ထဲမှာ ရေးထားတဲ့ upload ကိုခေါ်ပီး အဲ့ထဲမှာပါတဲ့ single ဆိုတာကိုခေါ် ပီးရင် database မှာ သိမ်းမယ့်နာမည်ကိုရေး
+router.post(/:id/upload, upload.single('photo'),postController.upload)
+ပီးရင် စမ်းလို့ရပီး
+
+13 - backend မှာ အဆင်ပြေရင် frontend ဘက်မှာ စမယ် အရင်ဆုံး input file တခုကို ထည့်မယ် အရင်ဆုံး ကိုယ်က ပုံupload လုပ်ရင် preview ပုံပြအောင်လုပ်မယ် အဲ့တွက် input file ထဲမှာ on change တခုထည့် အဲ့ ဒါကို console အရင်ထုတ်ကျိမယ် e.target.files ဆိုပီး 
+ပီးရင် console ကျိလိုက်ရင် array 0 မှာ ပြနေမယ် အဲ့ဒါကြောင့် e.target.files[0] ဆိုပီး file တခု သတ်မှတ်ပေးလိုက်မယ် အဲဒီ file object က backend ကို data ပို့ဖို့အတွက် သုံးရမှာဖြစ်တယ် file setFile ဆိုပိး state တခုသတ်မှတ်ပီး e.target.files[0] ကို setFile လို့ သတ်မှတ် အဲ့ဒါဆို backend ကို data ပို့ဖို့ လုပ်တာပီးပီး
+ဆက်ပီး preview ပြဖို့ ဆက်ရေးမယ် အဲ့တွက် preview setPreview ဆိုပီး state တခု ဖန်တီးမယါ preview ပြဖို့ js မှာ built-in ပါလာတဲ့ FileReader ကို သူံးမယ် 
+Let fileReader= new FileReader;
+ပီးရင် fileReader မှာ ပါလာတဲ့ onload function ကို ခေါ်မယ်
+fileReader = (e)={
+e ကို console ထုတ်ကျိရင် file က target ရဲ့ result ထဲမှာ ရှိလို့
+setPreview (e.target.result)
+}
+ပီးရင် readAsDataURL ကိုခေါ်ပေးရမယ် အဲ့ဒါမခေါ်ရင် အပေါ်က function မ run ဘူး
+fileReader.readAsDataURL(file)
+အဲ့ဒါဆို preview ပြတာရပီး 
+
+14 - ကဲပီးရင် ပုံတင်ဖို့စလုပ်မယ် ပုံတင်မယ်ဆိုရင် built-in ပါတဲ့ FormData ကို အရင်ခေါ်ရမယ် ပီးရင် ပုံသိမ်းဖို့ သတ်မှတ်ထားတဲ့ database name ကို ခေါ် ပီးရင် e.target.result[0] သတ်မှတ်ထားတဲ့ file ကို ခေါ်ပီး set လုပ်ပေးရမယ်
+Let formData= new FormData;
+formData.set('photo',file)
+ပီးရင် upload အတွက် axios ခေါ်ပီး backend မှာ သတ်မှတ်ထားတဲ့ route အတိုင်းထည့်
+Id နေရာမှာတော့ အပေါ်က create လုပ်ထားတဲ့ resရဲ့ data ကို ပြန်ခေါ်ပီး create လုပ်လိုက်ရင် ထွက်လာမယ့် id ကို ထည့်ပေး
+${res.data._id} ပီးရင် အပေါ်က သတ်မှတ်ထားတဲ့ formData ထည့်ပီးရင် ပုံလက်ခံမယ့် multiparty form data ကို သတ်မှတ်ပေး update တွက်လည်း ဒီတိုင်းဘဲ
+ကိုယ်ပြန်ကျိတဲ့အခါပုံပေါ်ချငိရင် ပုံ name ရဲ့ ရှေ့မှာ route ထည့်ရမယ်
+
+15 -  ပုံ upload လုပ်ရင် backend ထဲက public folder ထဲကို ပုံရောက်သွားမယ် အဲ့ပုံကိုဘဲ upload ပြန် လုပ်တဲ့ အခါမှာ အရင်ပုံဟောင်းကို မဖျက်ဘဲ နှစိခုလုံး public folder ထဲရောက်နေမယ် အဲ့လိုမဖြစ်အောင် backend က controller ထဲက update လုပ်ဖို့ ရေးထားတဲ့နေရာမှာ condition စစ်မယ် မစစ်ခင် အဲ့အတွက်လိုအပိတဲ့ fs ကို ထည့်ပေးရမယ်
+const fs = require('fs').promise;
+Promise ထည့်ပေးတာက await ခေါ်သူံးလို့ရအောင် သူက အချိန်တခု စောင့်ရတဲ့အတွက်
+ပီးရင် update ထဲမှာ update လုပ်တာရေးထားတဲ့နေရာနဲ့ if condition မစစ်ခင် နေရာမှာ ရေးရမယ် အရင်ဆူံး file ရှိမရှိဆိုတာ အရင်သတ်မှတ် ပီးရင် file လမ်းကြောင်းသတ်မှတ်
+Let fileExist;
+Let path = __dirname + '/../public' + ***.photo
+***နေရာမှာ ကိုယ်အပေါ်က သတ်မှတ်ထားတာရေး res လား photoလားဆိုတာ
+ပီးရင် try catch နဲ့စစိမယ် fs က အချိန်တခုစောင့်ရတယ်ဆိုတော့ await နဲ့ခေါ် 
+File ရှိရင် fileExist က true ဖြစ်မယ် မရှိရင် catch မှာ fileExist က false ဖြစ်မယ်
+await fs.access(path)
+fileExist (true)
+
+ပီးရင် fileExist ဖြစ်ခဲ့ရင် နဂိုရှိတာကို unlink လုပ်ပေးရမယ်
+if(fileExist){
+fs.unlink(path)
+}
+ဒါဆိုပီးပီး
+
+16 - အခု delete လုပ်ရင် ပုံပါပျက်မယ့် feature ကို ရေးမယ် အဲ့ဒါလည အပေါ်ကနဲ့ တပုံစံတည်း delete မှာ ရေးပေးရုံဘဲ
+
+17 - အခု signup login ရေးမယ် အရင်ဆုံး database တွက် model အရင်ဆောက် ထုံးစံအတိုင်း mongoose နဲ့ Schema ကို ခေါ်မယ် ပီးရင် လိုအပ်မယ့် name,email , password ကို ထည့်မယ် ပီးရင် export ထုတ် export မထုတ်ခင် condition နည်းနည်းစစ်မယ်Tint Htoo Ko, [5/28/2024 2:10 AM]
+12 -  ရိုးရိုး crud လည်း ပီးပီးဆိုတော့ အခု ပုံ upload လုပ်တာကို tryမယ် အဲ့တွက် backend ကနေ စလုပ်မယ် ပုံ upload လုပ်ဖို့တွက် multer ဆိုတဲ့ package ကို အရင် install လုပ်ရမယ် ပီးရင် helper folder ထဲမှာ upload.js file ဆောက်ပီး ရင် multer ကို required နဲ့သွင်း သွင်းပီးရင် ပီးရင် doc ထဲမှာ diskStorage ကို ရှာပီး အဲ့ကအကုန် copy ထည့် အဲ့ထဲမှာမှ လိုတာကို ပြင်မယ် သူ့ရဲ့အဓိက ရည်ရွယ်ချက်က photo သိမ်းဖို့ folder ကို သတ်မှတ်ပေးမှာ အဲ့မှာ destination ရဲ့ cb မှာ folder သတ်မှတ်မယ် ဘလိုလုပ်မလဲဆိုတော့ file ရဲ့ directory name ကို ဘယ်folder ထဲမှာ သိမ်းမှာလဲ ဆိုတာ
+cb(null, __dirname + '/../public')
+ပီးရင် filename သတ်မှတ်ဖို့ သူ့မှာ ပါတဲ့ uniqueSuffix ကို ဖျက်မယ် filename ရဲ့ cb က်ုဘဲ သုံးမယ် filename ကို ဘလိုသတ်မှတ်မလဲဆိုတော့ unique ဖြစ်အောင် အရှေ့မှာ အချိန်ကိုထည့်မယ် အဲ့ဒါဆို filename တူရင်တောင် အချိန်က မတူတော့ မထပ်တော့ဘူး
+cb(null, Date.now() + '-' + file.originalname)
+
+Tint Htoo Ko, [5/28/2024 2:11 AM]
+ဘာတွေစစ်မလဲဆိုတော့ UserSchema.statics.register ဆိုတဲ့ function ကို ခေါ်မယ် အဲ့ထဲမှာ user create လုပ်တဲ့အခါ email ရှိမရှိစစိမယ် ရှိရင် မရဘူး မရှိရင် create လုပ်မယ် ပီးရင် security အရ password ထည့်ရင် bcrypt ပြောင်းပေးရမယ် အဲ့တွက် bcrypt package ကို အရင် install ရမယ် login လည်း တူတူဘဲ email ရှိမရှိအရင်စစ်မယ် ရှိရင် password တူတူ ဆက်စစ်မယ် password ကို Register လုပ်တုန်းက bcrypt လုပ်ပီး ထည့်ထားလို့ bcrypt.compare နဲ့စစ်မယ် မှန်ရင် login ၀င်မယ် code အသေးစိတ်ကို ရေးထားတဲ့နေရာမှာကျိ
+
+18 - ပီးရင် user controller တခုဆောက်ပီး အဲ့ထဲမှာ login signup စရေးမယ် မရေးခင် jwt token လိုတယ် အဲ့တွက် helper ထဲမှာ token တွက် အရင်ရေးမယ်
+Token တွက် jsonwebtoken ကိုလည်း install လုပ်ထားဦး helper ထဲမှာ token တွက်ရေးရတဲ့ အဓိက အကြောင်းက token ကို အချိန်ဘလောက် ကြာအောင်သိမ်းမလဲဆိုတာဘဲ အဲ့တွက် jwt ကို require ခေါ် ပီးရင် အချိန်တခုသတ်မှတ်ပေး သူက second နဲ့ ပြပေးရတယ်
+const maxAge=3*24*60*60
+ဒါက token ကို အချိန်သုံးရက်တိတိသိမ်းအောင်
+ပီးရင် export ထုတ်ပေး export ထုတ်ရင် function ကို idခေါ်ပီ ထုတ်ပေး ပီးရင် return ပြန်ပီး jwt မှာပါတဲ့ sign ထဲမှာ idရယ် secret key ရယ် ကိုယ်သတ်မှတ်ထားတဲ့အချိန်ရယ် ထည့်ပေး
+
+Tint Htoo Ko, [5/28/2024 2:12 AM]
+Secret key ကို ကိုယ်ပေးချင်တဲ့ name ပေး အဲ့ဒါက dynamic ဖြစ်လို့ ကြိုက်တဲ့အချိန်လွယ်လွယ်ပြောင်းလို့ရအောင် .env ထဲမှာ variable တခုသတ်မှတ်ပီး ထည့်ထား
+JWT_SECRET = 'mysecret'
+Code အသ‌ေးစိပ်ကို ရေးထားတဲ့နေရာမှာကျိ
+
+19 -  ပီးရင် model ထဲက User ရော helper ထဲက createToken ရော controller ထဲမှာ require နဲ့ ခေါ်ပေး
+ပီးရင် register ထဲမှာ username,emil,password object တွေကို req.body မှာ ရှိတယ်လို့ သတ်မှတ် ပီးရင် await ခေါ်ပီး model user ထဲက refactor လုပ်ထားတဲ့ register ကို ခေါ်  ပီးရင် register လုပ်ရင် ပါမယ့် username,email,password ကို ပြန်ထည့်ပေး ဒါဆို user create လုပ်တာရပီး ဒါပေမယ့် user create လုပ်ပီးရင် token generate လုပ်တာနဲ့ cookie မှာ သိမ်းဖို့ကို ဆက်လေ့လာမယ် အရင်ဆုံး cookie-parser package ကို install လုပ် ပီးရင် register ထဲမှာ require နဲ့ ခေါ်ထားတဲ့ token ကို user._id နဲ့ သတ်မှတ် ပီူရင် res.cookie နဲ့ ထည့် login လည်း တူတူဘဲ
+
+20 - backend မှာ frontend မှာ ဆက်ရေးမှာ အကုန်လူံး create လုပ်တာနဲ့ တူတူဘဲ ဒါပေမယ့် axios.post ပီး လို့ route ထည့်ပီး data ထည့်ပီးရင် {withCredential:true}ထည့်ပေး အဲ့ဒါက backend ကနေ cookie store ဖို့ကို confirm လုပ်ပေးတာ register နဲ့ login တူတူဘဲ 
+
+21 - အကုန်ပီရင် logout လုပ်ဖို့ ဆက်ရေးမယ် logout ရေးတာလွယ်တယ် backend ဘက်က cookie မှာ token က်ု ဖြုတ် maxAge ကို 1milisecond ပြောင်း frontend ဘက်မှာ nav bar မှာ logout တွက်ရေးပေးလိုက်
+
+22 - အခုဆိုရင် login ၀င်၀င်မ‌၀င်၀င် တင်ထားတဲ့ post တွေကို ကျိလို့ရနေတယ် အဲ့လို မဖြစ်အောင် AuthMiddleware ကို သုံးပီး cookie မှာ token ရှိမရှိစစ်မယ် အဲ့လိုလုပ်ဖို့ backend က server မှာ cookie-parser ကို သွင်းဖို့ မမေ့နဲ့ ပီးရင် AuthMiddleware ကို post route ကိုပြတဲ့ server မှာ ထားထားလိုက် ပီးရင် AuthMiddleware မှာ အရင်ဆုံး function တခုကိုရေး middleware ရေးမယ်ဆို ထူံးစံအတိုင်း req,res,next ကိုထည့် next မထည့်ရင် တခြားသာကို ဆက်မrunဘူး ပီးရင် browser ထဲက token ကို ရှိမရှိကျိမယ်
+Let token = req.cookies.jwt;
+ပီးရင် if နဲ့ token ရှိရင် next နဲ့ဆက်သွားမယ် မရှိရင် 400 bad request error ပြလိုက် ဟုတ်ပီး အခု token သာရှိခဲ့မယ်ဆိုရင် user login ၀င်ထားတဲ့ token ဟုတ်မဟုတ်ကို verify စစ်ပေးရမယ် အဲ့တွက် jsonwebtoken ကို require ခေါ်ထား 
+jwt.verify(1st parameter, 2 parameter, 3rd parameter)
+Verify စစ်တဲ့အခါ parameter သုံးခုလိုတယ်
+1st parameter မှာ token ထည့်, 2nd parameter မှာ .env မှာ ထည့်ထားတဲ့ secret key ထည့် , 3rd parameter မှာ function တခုထညိ့ သူက err ပြမယ် မပါရင် decodeValue နဲ့ စစ်လို့ရမယ် စစ်ဖို့တွက် user ရဲ့ id နဲ့ရှာမယ် ပီးရင် အဲ့ id ကို decode လုပ်ပီး user ရှိမရှိစစ်မယ် အဲ့လိုစစ်ဖို့ model ထဲက User ကို require ခေါ်ထား
+
+23 - ပီးရင် user login ၀င်တိုင်း ကိုယ့်ရဲ့browser ကမှတ်မိနေအောင် contextApi သုံးကြမယ် အဲ့တွက် frontend ဘက်မှာ context ဆိုတဲ့ folder တခုဆောက်ပီး AuthContext ဆိုတဲ့ js file တခုဆောက် ကိုယ်ကြိုက်တဲ့ name ပေးလို့ရတယ် အရင်ဆုံး react မှာပါတဲ့ createContext ကို variable name (AuthContext )တခုပေးပီးခေါ် အဲ့ name ကို object အနေနဲ့ တခါတည်း export ထုတ်ထား ပီးရင် provider ကို function အနေနဲ့children object ကိုပါတခါတည်းခေါ်  ပီးရင် AuthContext.Provider ဆိုပီး return ပြန်ပေး အထဲမှာ children object ထည့် အဲ့ဒါကိုလည်း export တခါတည်းထုတ် ပီးရင် useReducer ကို ခေါ်မယ် သူက လုပ်ရမယ့် action တွေများနေရင် useReducer ကို သုံးရမယ် သူက useState လိုဘဲ state နဲ့ dispatch ဆိုပီး သတ်မှတ်ပေး useReducer ထဲမှာ first parameter အနေနဲ့ reducer function တခုကို ထည့်ပေးရမယ် second parameter မှာ initial default data ကို ထည့်‌ပေးရတယ် အခုက user တွက်ဆိုတော့ {user : null}ဆိုပီး ထည့်ထားမယ် ပီးရင် reducer function တွက် function တခု ရေးမယ် function ထဲမှာ state ရယ် action ရယ် ပါမယ် ပီးရင် condition စစ်ဖို့တွက် if else အစား switch case ကို သုံးတယ် developer တွေက useReducer သုံးရင် switch case ကို သုံးတယ် စစ်ရမှာက action.type ကို စစ်ရမယ် case ထဲမှာ action.type က login ဆိုရင် return အနေနဲ့ user ရဲ့ action.payload ကို ရမယ် logout ဆိုရင် user က null ဖြစ်မယ်ဆိုပီူ စစ်လိုက်မယ် အဲ့ဒါတွေ ပီးရင် return ပြန်ထားတဲ့နေရာမှာ value အနေနဲ့ {{...state,dispatch}} ကိုထည့်ပေး ပီးရင် signin မှာ status 200 တူခဲ့ရင်ထဲမှာ dispatch ကိုထည့် သူက type နဲ့ payload နဲ့သွားတယ် type မှာ switch case မှာ စစ်ထားတဲ့ LOGIN ကိုထည့် payload မှာ res.data.user ကို ထည့် အဲ့ဒါတွေမလုပ်ခင် use context ကို သွင်းဖို့ မမေ့နဲ့ logout တွက်လည်း တူတူဘဲ nav bar login logout ပေါ်ဖို့တွက် dispatch အပြင် user ပါထည့်ရမယ်
+Tint Htoo Ko, [5/28/2024 2:10 AM]
+12 -  ရိုးရိုး crud လည်း ပီးပီးဆိုတော့ အခု ပုံ upload လုပ်တာကို tryမယ် အဲ့တွက် backend ကနေ စလုပ်မယ် ပုံ upload လုပ်ဖို့တွက် multer ဆိုတဲ့ package ကို အရင် install လုပ်ရမယ် ပီးရင် helper folder ထဲမှာ upload.js file ဆောက်ပီး ရင် multer ကို required နဲ့သွင်း သွင်းပီးရင် ပီးရင် doc ထဲမှာ diskStorage ကို ရှာပီး အဲ့ကအကုန် copy ထည့် အဲ့ထဲမှာမှ လိုတာကို ပြင်မယ် သူ့ရဲ့အဓိက ရည်ရွယ်ချက်က photo သိမ်းဖို့ folder ကို သတ်မှတ်ပေးမှာ အဲ့မှာ destination ရဲ့ cb မှာ folder သတ်မှတ်မယ် ဘလိုလုပ်မလဲဆိုတော့ file ရဲ့ directory name ကို ဘယ်folder ထဲမှာ သိမ်းမှာလဲ ဆိုတာ
+cb(null, __dirname + '/../public')
+ပီးရင် filename သတ်မှတ်ဖို့ သူ့မှာ ပါတဲ့ uniqueSuffix ကို ဖျက်မယ် filename ရဲ့ cb က်ုဘဲ သုံးမယ် filename ကို ဘလိုသတ်မှတ်မလဲဆိုတော့ unique ဖြစ်အောင် အရှေ့မှာ အချိန်ကိုထည့်မယ် အဲ့ဒါဆို filename တူရင်တောင် အချိန်က မတူတော့ မထပ်တော့ဘူး
+cb(null, Date.now() + '-' + file.originalname)
+
+Tint Htoo Ko, [5/28/2024 2:11 AM]
+ဘာတွေစစ်မလဲဆိုတော့ UserSchema.statics.register ဆိုတဲ့ function ကို ခေါ်မယ် အဲ့ထဲမှာ user create လုပ်တဲ့အခါ email ရှိမရှိစစိမယ် ရှိရင် မရဘူး မရှိရင် create လုပ်မယ် ပီးရင် security အရ password ထည့်ရင် bcrypt ပြောင်းပေးရမယ် အဲ့တွက် bcrypt package ကို အရင် install ရမယ် login လည်း တူတူဘဲ email ရှိမရှိအရင်စစ်မယ် ရှိရင် password တူတူ ဆက်စစ်မယ် password ကို Register လုပ်တုန်းက bcrypt လုပ်ပီး ထည့်ထားလို့ bcrypt.compare နဲ့စစ်မယ် မှန်ရင် login ၀င်မယ် code အသေးစိတ်ကို ရေးထားတဲ့နေရာမှာကျိ
+
+18 - ပီးရင် user controller တခုဆောက်ပီး အဲ့ထဲမှာ login signup စရေးမယ် မရေးခင် jwt token လိုတယ် အဲ့တွက် helper ထဲမှာ token တွက် အရင်ရေးမယ်
+Token တွက် jsonwebtoken ကိုလည်း install လုပ်ထားဦး helper ထဲမှာ token တွက်ရေးရတဲ့ အဓိက အကြောင်းက token ကို အချိန်ဘလောက် ကြာအောင်သိမ်းမလဲဆိုတာဘဲ အဲ့တွက် jwt ကို require ခေါ် ပီးရင် အချိန်တခုသတ်မှတ်ပေး သူက second နဲ့ ပြပေးရတယ်
+const maxAge=3*24*60*60
+ဒါက token ကို အချိန်သုံးရက်တိတိသိမ်းအောင်
+ပီးရင် export ထုတ်ပေး export ထုတ်ရင် function ကို idခေါ်ပီ ထုတ်ပေး ပီးရင် return ပြန်ပီး jwt မှာပါတဲ့ sign ထဲမှာ idရယ် secret key ရယ် ကိုယ်သတ်မှတ်ထားတဲ့အချိန်ရယ် ထည့်ပေး
+
+Tint Htoo Ko, [5/28/2024 2:12 AM]
+24 - လောလောဆယ် error တခုရှိတယ် သူက login ၀င်ပီးတိုင်း refresh လုပ်လိုက်ရင် auto logoutဖြစ်ဖြစ်သွားတယ် အဲ့ဒါက်ု fix ကြမယ် အဲ့တွက် AuthContextProvider ထဲက user မှာ null ပေးထားတယ် အဲ့မှာ OR logic နဲ့ user မရှိရင် null ။ ရှိရင် local storage ထဲက user ကို ယူမယ် သူက json ဖြစ်နေလို့ JSON.stringfy နဲ့ ပြောင်းလိုက် ပီးရင် ပိုပီး security ဖြစ်အောင် backend မှာ login ၀င်ထားရင် login user ကို ကျိလို့ရတဲ့ method တခုရေးထား သူက json နဲ့ ပြ
+return res.json(req.user) အဲ့ဒါကြောင့် အပေါ်မှာ user ကို ခေါ်တဲ့အခါ JSON.stringfy နဲ့ ‌ပြန်ခေါ်တာ backend မှာ json နဲ့ ထုတ်ပြထားလို့ ပီးရင် AuthContext ထဲမှာ useEffectနဲ့ backend က login user ကျိတဲ့ route ကို ခေါ်  ပီးရင် .then ပြန်လာ ပီးရင် res.data ကို user လို့ သတ်မှတ် အကယ်လို့ user ရှိ dispatch ပြန်လာ dispatch function ရဲ့ ထုံးစံအတိုင်း type နဲ့ payload ရှိတယ် ကျန်တာ ပုံမှန်ဘဲ အဲ့ဒါတွေ ပီးရင် refresh လုပ်တဲ့ အခါ ပုံမှန်ပြန်ဖြစ်
+
+Tint Htoo Ko, [5/28/2024 2:12 AM]
+25- ဒီတခါ comment section ရေးကြမယ် အရင်ဆုံး ထူံးစံအတိုင်း backend မှာ ရေးကြမယ် အဲ့ဒါဆိုတော့ comment တွက် route တွေ controller တွေ model တွေ ‌ဆောက်မယ် အရင်ဆုံး model ဘက်ကို စမယ် comment မှာ text ထည့်ချင်တော့ဆိုတော့ text ပါမယ် ပီးတော့ စပီး သတိထားရမှာတခု comment မယ်ဆိုရင် post ရှိဖို့လိုတယ် post ရှိမှ မန့်လို့ရမယ် အဲ့ဒါကြောင့် comment ရဲ့ model မှာ post ရဲ့ id လိုမယ် 
+PostId : {
+type : mongoose.Schema.Types.ObjectId,
+ref : 'Post'
+}
+အဲ့တခုထည့်ပေးရမယ် နောက်ထပ်သတိထားရမှာက post model ထဲမှာလည်း comment ရှိရမယ် ကိုယ်က comment အများကြီးပေးထားရင် post model ထဲမှာလည်း comment အများကြီးရောက်နေမှာဖြစ်တဲ့အတွက် post model ထဲမှာလည်း ခနကလို comment ကို ထည့်ပေး သူကအများကြီးရှိလို့ array နဲ့ထည့်ရမယ်
+အဲ့ဒါတွေပီးရင် controller ဘက်သွားမယ် အရင်ဆူံး comment ကို ကျိဖို့လုပ်မယ် သူက အရင်ဆူံး id ရှိမရှိကို req.params.id နဲ့ရှာမယ် အဲ့ဒါကို သတ်မှတ်တာကို comment model ထဲက postId တွက် သတ်မှတ်ထားတဲ့ name ကိုဘဲ ထည့်ပေး ပီးရင် comment ရှိမရှိကို Comment model ထဲက find method နဲ့ရှာမယ် ဘလိုရရှာမလဲဆိုတော့ postId object နဲ့ရှာမယ် comment ကျိတာက ဒါဘဲ
+
+26- comment create လုပ်မယ်ဆိုရင် ထုံးစံအတိုင်း post ကို req.params.id နဲ့ရှာ နောက်ပီး req.body ကို {text} object သတ်မှတ်ပေး ပီးရင် Comment.create method နဲ့ postId နဲ့ text object နှစ်ခုကို ထည့်ပေး ဒါဆို comment create တာပီးပီး ပီးရင် create ထားတဲ့ comment ကို post မှာပေါ်ဖို့ လုပ်ရမယ် အဲ့အတွက် post ကို findById နဲ့ရှာ post.comment.push နဲ့ comment ကို ထည့်ပေး post.comment က post model ထဲက comment ရဲ့ name အဲ့နေရာမှာ com ဖြစ်ရင် post.com ဆိုပီး ပြောင်းမယ် အဲ့ဒါဆို create တာ ပီးပီး frontend ဘက်မှာ ကျိရင် ပေါ်မှာ backend က post controller မှာ populate('comment')ဆိုပီး ထည့်ပေး
+
+27 - frontend ဘက်မှာ ဆက်မယ် သူက detail မှာဘဲ လုပ်မှာဆိုတော့ comment create လုပ်ဖို့ state တခုရယ် comment ကျိဖို့ state တခုရယ် ဖန်တီး ပီးရင် post ကျိတဲ့နေရာအောက်မှာ set comment နဲ့ data ထဲမှာ ရှိတဲ့ comment ကို res လုပ် ပီူရင် map ပါတ်ပီးထုတ်ပေး ဒါဆို ကျိတာပီးပီး create လုပ်ဖို့ function တခု ဆောက် axios.post နဲ့ ခေါ် ပီးရင် text ကို new comment လို့ အစားထိုး ပီးရင် status code က ၂၀၀ ဖြစ်တယ်ဆိုရင် set comment မှာ array နဲ့ နဂိုရှိတဲ့ comment ကိုပြန်ခေါ်မယ် ပီးရင် အသစ်ထည့်ထားတဲ့ res.data ကို ထည့်မယ်
+setComment([...comment,res.data])
+ ဒါဆိုပီးပီး
+
+28 - နောက်ဆုံး တခုက ကိုယ်က photo အစား vd တင်မယ်ဆိုရင် ပြန်ထုတ်တဲ့အခါ 
+{
+p.photo && p.photo.endsWith('.mp4') ? (
+<video>
+<source src={......} type='video.mp4'>
+</video>
+: (
+<img />
+}
+
+29- ဒီတခါ search bar တွက် ရေးကြမယ် search function က app တခုလုံးကို သုံးမှာဆိုတော့ app.js မှာ state initialization အရင်လုပ်ရမယ် အဲ့တော့ searchQuery setSearchQuery ဆိုတဲ့ useState ကို အရင်ဆောက် ပီးရင် search လုပ်ဖို handleSearch function ကို (query)ကို ခေါ်ပီး ဆောက် အဲ့ထဲမှာ setSearchQuery ကို ထည့် ပီးရင် handleSearch ကို onSearchဆိုပီး nav bar ကနေ passing prop လုပ် searchQuery state ကိုတော့ context ဆိုပီး outlet ထဲမှာ nested route လုပ် {{searchQuery}}
+ပီးရင် nav bar component မှာ on search props ကိုပြန်ယူ အဲ့ prop ကို return ပြန်ထားတဲ့ nav တွေထဲက <SearchBar/> မှာ onSearch={onSearch} ဆိုပီး passing prop ပြန်လုပ်ပေး 
+ပီးရင် SearchBar component ထဲမှာ onSearch prop ကို ပြန်ခေါ် query,setQuery state သတ်မှတ် ပီးရင် input ထဲမှာ value နဲ့ onChange ကို ပုံမှန်လိုသတ်မှတ်
+Button တွက် onClick function ကို props onSearch(query) လို သတ်မှတ်
+ပီးရင် home component ထဲမှာ  useOutletContext ကို ခေါ်ပီးတော့ app component ထဲက outlet မှာ context ဆိုပီး nested route လုပ်ထားတဲ့ searchQuery ကို object အနေနဲ့ ထည့်ပေး ပီးရင် ပုံမှန် ဆို post ကို map ပတ်ပီး တင်ထားတဲ့ post တွေကို ထုတ်တယ် အခုက search တွက်ပါ ထုတ်ရမှာဆိုတော့ အဲ့တွက်ကို function တခု အရင်ထုတ်မယ် ဘလိုလုပ်မလဲဆိုတော့ ရှိသမျှ post တွေထဲ filter နဲ့ စစ်ထုတ်မယ် ပီးရင် post ရဲ့ title ကို အကုန် lowercase ပြောင်း ပီးရင် searchQuery အနေနဲ့ ရှာထားတဲ့ထဲမှာပါလားဆိုပီး include နဲ့ စစ်
+Const filterPost = post.filter(p => (
+p.title.toLowerCase().included(searchQuery.toLowerCase()) ||
+p.body.toLowerCase().included(searchQuery.toLowerCase())
+)
+ပီးရင် return ထဲမှာ filterPost.length && filter post.map နဲ့ map ပြန်ပတ်
+ဒါဆို search feature ပီးပီး
